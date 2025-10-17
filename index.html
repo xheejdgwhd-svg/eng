@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Learn English — Minimal, Modern & Animated</title>
+  <meta name="description" content="A clean, modern English learning platform with interactive quizzes, video lessons, and a progress tracker." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <img src="assets/icons/book.svg" alt="Book icon" class="logo" />
+      <span>Learn English</span>
+    </div>
+    <div class="searchwrap">
+      <input id="searchInput" type="search" placeholder="Search lessons, topics, tips..." aria-label="Search" />
+      <button id="searchBtn" class="btn cta">Search</button>
+    </div>
+    <nav class="topnav" aria-label="Main">
+      <button class="iconbtn" id="notifyBtn" title="Notifications">
+        <img src="assets/icons/bell.svg" alt="Notifications" />
+      </button>
+      <a class="profile" href="#profile" id="profileLink" aria-label="Profile">
+        <img src="assets/icons/user.svg" alt="" />
+      </a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero card">
+      <div class="hero-text">
+        <h1>Master English with confidence</h1>
+        <p>Choose your path, practice with interactive exercises, and track your progress.</p>
+        <div class="hero-ctas">
+          <a href="#paths" class="btn cta">Choose a path</a>
+          <a href="#quiz" class="btn ghost">Try a quick quiz</a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="pulse"></div>
+        <div class="wave"></div>
+        <div class="dots"></div>
+      </div>
+    </section>
+
+    <section id="paths" class="grid">
+      <article class="tile card appear" data-path="Beginner">
+        <img src="assets/icons/az.svg" alt="" />
+        <h3>Vocabulary</h3>
+        <p>Curated word packs with spaced repetition.</p>
+        <button class="btn tiny cta" data-action="startPath">Start</button>
+      </article>
+      <article class="tile card appear" data-path="Grammar">
+        <img src="assets/icons/node.svg" alt="" />
+        <h3>Grammar</h3>
+        <p>Short, animated explanations and drills.</p>
+        <button class="btn tiny cta" data-action="startPath">Start</button>
+      </article>
+      <article class="tile card appear" data-path="Pronunciation">
+        <img src="assets/icons/ear.svg" alt="" />
+        <h3>Pronunciation</h3>
+        <p>Listen, repeat, and compare with visual cues.</p>
+        <button class="btn tiny cta" data-action="startPath">Start</button>
+      </article>
+      <article class="tile card appear" data-path="Business">
+        <img src="assets/icons/briefcase.svg" alt="" />
+        <h3>Business English</h3>
+        <p>Emails, meetings, and presentations.</p>
+        <button class="btn tiny cta" data-action="startPath">Start</button>
+      </article>
+    </section>
+
+    <section id="quick-actions" class="grid grid-small">
+      <a class="card action appear" href="#quiz">
+        <img src="assets/icons/quiz.svg" alt="" />
+        <div>
+          <h4>Quiz</h4>
+          <p>Check your knowledge in 60 seconds.</p>
+        </div>
+      </a>
+      <a class="card action appear" href="#videos">
+        <img src="assets/icons/video.svg" alt="" />
+        <div>
+          <h4>Video lessons</h4>
+          <p>Bite‑size explanations & examples.</p>
+        </div>
+      </a>
+      <div class="card action appear" id="progressCard" role="region" aria-label="Your progress">
+        <div class="ring">
+          <svg viewBox="0 0 36 36" class="circular-chart">
+            <path class="circle-bg" d="M18 2.0845
+              a 15.9155 15.9155 0 0 1 0 31.831
+              a 15.9155 15.9155 0 0 1 0 -31.831"/>
+            <path id="progressArc" class="circle" stroke-dasharray="0, 100" d="M18 2.0845
+              a 15.9155 15.9155 0 0 1 0 31.831
+              a 15.9155 15.9155 0 0 1 0 -31.831"/>
+            <text x="18" y="20.35" class="percentage" id="progressPct">0%</text>
+          </svg>
+        </div>
+        <div>
+          <h4>Your progress</h4>
+          <p id="progressCopy">Let’s begin!</p>
+        </div>
+      </div>
+      <a class="card action appear" href="#blog">
+        <img src="assets/icons/blog.svg" alt="" />
+        <div>
+          <h4>Blog</h4>
+          <p>Daily tips & micro‑lessons.</p>
+        </div>
+      </a>
+    </section>
+
+    <section id="quiz" class="card">
+      <h2>Quick Quiz</h2>
+      <p class="muted">5 questions • auto‑feedback • saves to your progress</p>
+      <div id="quizBox" class="quiz"></div>
+    </section>
+
+    <section id="videos" class="card">
+      <h2>Video Lessons</h2>
+      <p class="muted">Lightweight video placeholders — replace MP4 sources with your own.</p>
+      <div class="videos grid-small">
+        <figure class="video-card appear">
+          <video controls preload="metadata">
+            <source src="assets/sample-lesson.mp4" type="video/mp4">
+          </video>
+          <figcaption>Present Simple vs Present Continuous</figcaption>
+        </figure>
+        <figure class="video-card appear">
+          <video controls preload="metadata">
+            <source src="assets/sample-lesson.mp4" type="video/mp4">
+          </video>
+          <figcaption>Pronunciation: /θ/ vs /ð/</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="blog" class="card">
+      <h2>Language Tips</h2>
+      <div id="blogList" class="blog grid-small"></div>
+    </section>
+
+    <section id="profile" class="card">
+      <h2>Your Profile</h2>
+      <form id="profileForm" class="profile-form">
+        <label>
+          Display name
+          <input type="text" id="displayName" placeholder="Your name" />
+        </label>
+        <label>
+          Level
+          <select id="level">
+            <option>Beginner</option>
+            <option>Intermediate</option>
+            <option>Advanced</option>
+          </select>
+        </label>
+        <button class="btn cta" type="submit">Save</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <small>© 2025 Learn English — Demo bundle (static, offline‑ready)</small>
+  </footer>
+
+  <script>document.documentElement.classList.add('js')</script>
+  <script src="js/app.js" defer></script>
+</body>
+</html>
