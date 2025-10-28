@@ -1,158 +1,204 @@
+const body = document.body;
+const nav = document.querySelector('.nav');
+const menuBtn = document.querySelector('.menu-btn');
+const themeToggle = document.getElementById('themeToggle');
+const caseModal = document.querySelector('.case-modal');
+const caseContent = document.getElementById('caseContent');
+const contactForm = document.getElementById('contactForm');
+const dots = Array.from(document.querySelectorAll('.reviews .dot'));
+const reviews = Array.from(document.querySelectorAll('.review'));
+const storageKey = 'polaris-theme';
 
-/* Minimal SPA‑like behavior, offline-friendly (no external libs) */
-const $ = (sel, el=document) => el.querySelector(sel);
-const $$ = (sel, el=document) => Array.from(el.querySelectorAll(sel));
-
-const state = {
-  progress: Number(localStorage.getItem("progress") || 0),
-  profile: JSON.parse(localStorage.getItem("profile") || '{"displayName":"","level":"Beginner"}'),
-  quizIndex: 0,
-  quizScore: 0,
-  quiz: []
+const cases = {
+  techflow: {
+    title: 'TechFlow',
+    summary: 'Обновление бренда и запуск продуктовой платформы SaaS-сервиса B2B сегмента.',
+    result: 'Увеличение конверсии регистрации на 37%, рост NPS с 26 до 41 за квартал.',
+    stack: ['Discovery workshop', 'UX-исследования', 'Редизайн кабинета', 'Дизайн-система']
+  },
+  museo: {
+    title: 'Museo',
+    summary: 'Создание AR-экспозиции и мобильного гида для федеральной музейной сети.',
+    result: 'Рост вовлеченности посетителей на 62%, среднее время сессии увеличилось до 18 минут.',
+    stack: ['UX-концепция', 'AR-прототипы', 'Продакшн контента', 'Мобильное приложение']
+  },
+  north: {
+    title: 'North Coffee',
+    summary: 'Ребрендинг, разработка новой упаковки и запуск e-commerce платформы.',
+    result: 'Рост онлайн-продаж в 2,3 раза, ROMI кампании — 540%.',
+    stack: ['Исследование аудитории', 'Визуальная система', 'Фото/видео продакшн', 'Shopify-магазин']
+  }
 };
 
-// Sample quiz (replace with your data source later)
-const sampleQuiz = [
-  {q:"Choose the correct sentence:", a:["She go to work.", "She goes to work.", "She going work."], c:1},
-  {q:"Select the plural:", a:["Childs","Children","Childes"], c:1},
-  {q:"Pick the correct preposition: I'm interested ___ music.", a:["in","on","at"], c:0},
-  {q:"'Their' is used to show...", a:["Place","Possession","Time"], c:1},
-  {q:"Past of 'go' is ...", a:["goed","went","gone (as verb)"], c:1}
-];
+function restoreTheme() {
+  const stored = localStorage.getItem(storageKey);
+  if (stored === 'dark') {
+    body.setAttribute('data-theme', 'dark');
+    themeToggle.setAttribute('aria-pressed', 'true');
+    themeToggle.textContent = 'Светлая тема';
+  }
+}
 
-const sampleBlog = [
-  {title:"3 quick tips for Present Simple", body:"Use it for routines, habits, timetables. Add 's' for he/she/it. Use 'do/does' for questions/negatives."},
-  {title:"Pronunciation: voiced vs voiceless", body:"Put your fingers on your throat: if it vibrates (/z/, /v/, /ð/), it's voiced; if not (/s/, /f/, /θ/), voiceless."},
-  {title:"Vocabulary micro‑lesson: Collocations", body:"Learn words in common pairs: 'make a decision', 'take a break', 'do homework'."}
-];
+function toggleTheme() {
+  const isDark = body.getAttribute('data-theme') === 'dark';
+  if (isDark) {
+    body.removeAttribute('data-theme');
+    themeToggle.setAttribute('aria-pressed', 'false');
+    themeToggle.textContent = 'Тёмная тема';
+    localStorage.setItem(storageKey, 'light');
+  } else {
+    body.setAttribute('data-theme', 'dark');
+    themeToggle.setAttribute('aria-pressed', 'true');
+    themeToggle.textContent = 'Светлая тема';
+    localStorage.setItem(storageKey, 'dark');
+  }
+}
 
-function init() {
-  // profile
-  $("#displayName").value = state.profile.displayName || "";
-  $("#level").value = state.profile.level || "Beginner";
+function toggleMenu() {
+  const isOpen = nav.getAttribute('data-open') === 'true';
+  nav.setAttribute('data-open', isOpen ? 'false' : 'true');
+  menuBtn.classList.toggle('is-open');
+  menuBtn.setAttribute('aria-expanded', (!isOpen).toString());
+}
 
-  // progress ring
-  updateProgressRing(state.progress);
+function closeMenu() {
+  if (nav.getAttribute('data-open') === 'true') {
+    nav.setAttribute('data-open', 'false');
+    menuBtn.classList.remove('is-open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+  }
+}
 
-  // build quiz
-  state.quiz = sampleQuiz;
-  renderQuizQuestion();
-
-  // blog
-  const blogList = $("#blogList");
-  blogList.innerHTML = sampleBlog.map(post => `
-    <article class="post card">
-      <h4>${post.title}</h4>
-      <p>${post.body}</p>
-    </article>
-  `).join("");
-
-  // search
-  $("#searchBtn").addEventListener("click", onSearch);
-  $("#searchInput").addEventListener("keydown", e=>{ if(e.key==="Enter") onSearch(); });
-
-  // paths
-  $$("#paths [data-action='startPath']").forEach(btn=>btn.addEventListener("click", e=>{
-    const card = e.currentTarget.closest("[data-path]");
-    const pathName = card.dataset.path;
-    toast(`Started: ${pathName}`);
-    bumpProgress(2);
-  }));
-
-  // profile form
-  $("#profileForm").addEventListener("submit", e=>{
-    e.preventDefault();
-    state.profile.displayName = $("#displayName").value.trim();
-    state.profile.level = $("#level").value;
-    localStorage.setItem("profile", JSON.stringify(state.profile));
-    toast("Profile saved");
+function smoothScrollTo(target) {
+  const el = document.querySelector(target);
+  if (!el) return;
+  window.scrollTo({
+    top: window.scrollY + el.getBoundingClientRect().top - 72,
+    behavior: 'smooth'
   });
 }
 
-function onSearch(){
-  const term = $("#searchInput").value.trim();
-  if(!term){ toast("Type a word or topic"); return; }
-  const hits = [];
-  sampleBlog.forEach(p=>{ if((p.title+p.body).toLowerCase().includes(term.toLowerCase())) hits.push(`Blog: ${p.title}`); });
-  state.quiz.forEach((q,i)=>{ if(q.q.toLowerCase().includes(term.toLowerCase())) hits.push(`Quiz Q${i+1}`); });
-  toast(hits.length ? `Found ${hits.length} item(s): ${hits.slice(0,3).join(", ")}${hits.length>3?'…':''}` : "No results");
+function openCaseModal(key) {
+  const data = cases[key];
+  if (!data) return;
+  caseContent.innerHTML = `
+    <h3>${data.title}</h3>
+    <p>${data.summary}</p>
+    <p><strong>Результат:</strong> ${data.result}</p>
+    <h4>Что сделали:</h4>
+    <ul>${data.stack.map(item => `<li>${item}</li>`).join('')}</ul>
+  `;
+  caseModal.setAttribute('open', '');
+  caseModal.focus();
 }
 
-function renderQuizQuestion(){
-  const box = $("#quizBox");
-  const i = state.quizIndex;
-  const item = state.quiz[i];
-  if(!item){ // finished
-    const pct = Math.round((state.quizScore / state.quiz.length) * 100);
-    bumpProgress(Math.max(5, Math.round(pct/10)));
-    box.innerHTML = `
-      <div class="q"><strong>Finished!</strong> Score: ${state.quizScore}/${state.quiz.length} (${pct}%)</div>
-      <button class="btn cta" id="retryBtn">Try again</button>
-    `;
-    $("#retryBtn").addEventListener("click", resetQuiz);
-    return;
-  }
-  box.innerHTML = `
-    <div class="q"><strong>Q${i+1}.</strong> ${item.q}</div>
-    <div class="choices">
-      ${item.a.map((choice, idx)=>`<div class="choice" data-idx="${idx}">${choice}</div>`).join("")}
-    </div>
-  `;
-  $$("#quizBox .choice").forEach(el=>{
-    el.addEventListener("click", ()=>{
-      const idx = Number(el.dataset.idx);
-      if(idx===item.c){
-        el.classList.add("correct");
-        state.quizScore++;
-        toast("Nice!");
-      } else {
-        el.classList.add("wrong");
-        toast("Not quite");
-      }
-      setTimeout(()=>{
-        state.quizIndex++;
-        renderQuizQuestion();
-      }, 450);
+function closeCaseModal() {
+  caseModal.removeAttribute('open');
+}
+
+function setActiveReview(index) {
+  reviews.forEach((review, i) => {
+    review.toggleAttribute('data-active', i === index);
+  });
+  dots.forEach((dot, i) => {
+    dot.setAttribute('aria-pressed', i === index ? 'true' : 'false');
+  });
+}
+
+function autoRotateReviews() {
+  let activeIndex = reviews.findIndex(review => review.hasAttribute('data-active'));
+  activeIndex = activeIndex === -1 ? 0 : activeIndex;
+  const nextIndex = (activeIndex + 1) % reviews.length;
+  setActiveReview(nextIndex);
+}
+
+function handleFormSubmit(event) {
+  event.preventDefault();
+  const formData = new FormData(contactForm);
+  const name = formData.get('name').trim();
+  const note = document.getElementById('formNote');
+  note.textContent = `${name || 'Спасибо'}! Мы уже пишем вам письмо.`;
+  note.classList.add('success');
+  contactForm.reset();
+}
+
+function initScrollLinks() {
+  document.querySelectorAll('[data-scroll]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      smoothScrollTo(btn.getAttribute('data-scroll'));
     });
   });
 }
 
-function resetQuiz(){
-  state.quizIndex = 0; state.quizScore = 0;
-  renderQuizQuestion();
+function initNavLinks() {
+  nav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', event => {
+      event.preventDefault();
+      smoothScrollTo(link.getAttribute('href'));
+      closeMenu();
+    });
+  });
 }
 
-function bumpProgress(delta){
-  state.progress = Math.min(100, state.progress + delta);
-  localStorage.setItem("progress", String(state.progress));
-  updateProgressRing(state.progress);
+function initIntersectionEffects() {
+  const observed = document.querySelectorAll('.card, .case, .timeline li, .review, .stats div, .form');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.2
+  });
+  observed.forEach(el => observer.observe(el));
 }
 
-function updateProgressRing(pct){
-  const arc = $("#progressArc");
-  const label = $("#progressPct");
-  const copy = $("#progressCopy");
-  const dash = Math.max(0, Math.min(100, pct));
-  arc.setAttribute("stroke-dasharray", `${dash}, 100`);
-  label.textContent = `${dash}%`;
-  copy.textContent = dash === 0 ? "Let’s begin!" : dash < 100 ? "Keep going!" : "Great job!";
-}
+menuBtn.addEventListener('click', toggleMenu);
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 780) {
+    nav.removeAttribute('data-open');
+    menuBtn.classList.remove('is-open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+  }
+});
 
-function toast(msg){
-  const t = document.createElement("div");
-  t.className = "toast"; t.textContent = msg;
-  document.body.appendChild(t);
-  setTimeout(()=> t.classList.add("show"), 10);
-  setTimeout(()=> { t.classList.remove("show"); setTimeout(()=>t.remove(), 250); }, 1800);
-}
+nav.addEventListener('keydown', event => {
+  if (event.key === 'Escape') closeMenu();
+});
 
-// Simple notification badge animation
-$("#notifyBtn")?.addEventListener("click", ()=> toast("No new notifications"));
+caseModal.addEventListener('click', event => {
+  if (event.target === caseModal || event.target.classList.contains('case-modal__close')) {
+    closeCaseModal();
+  }
+});
 
-// Tiny CSS-driven toast
-const styleToast = document.createElement("style");
-styleToast.textContent = `.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) scale(.96);background:#0e1b2b;color:#fff;padding:.55rem .8rem;border-radius:10px;opacity:0;transition:.25s;box-shadow:0 10px 24px rgba(0,0,0,.25);z-index:99}
-.toast.show{opacity:1; transform:translateX(-50%)}`;
-document.head.appendChild(styleToast);
+contactForm.addEventListener('submit', handleFormSubmit);
+themeToggle.addEventListener('click', toggleTheme);
 
-document.addEventListener("DOMContentLoaded", init);
+Array.from(document.querySelectorAll('.case .tag')).forEach(button => {
+  button.addEventListener('click', () => openCaseModal(button.dataset.case));
+});
+
+initScrollLinks();
+initNavLinks();
+restoreTheme();
+initIntersectionEffects();
+setActiveReview(0);
+
+let reviewInterval = setInterval(autoRotateReviews, 6000);
+
+dots.forEach((dot, index) => {
+  dot.addEventListener('click', () => {
+    clearInterval(reviewInterval);
+    setActiveReview(index);
+    reviewInterval = setInterval(autoRotateReviews, 6000);
+  });
+});
+
+caseModal.addEventListener('keydown', event => {
+  if (event.key === 'Escape') {
+    closeCaseModal();
+  }
+});
