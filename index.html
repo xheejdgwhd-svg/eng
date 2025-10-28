@@ -1,173 +1,250 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Learn English — Minimal, Modern & Animated</title>
-  <meta name="description" content="A clean, modern English learning platform with interactive quizzes, video lessons, and a progress tracker." />
+  <title>Polaris Creative — современная студия брендинга</title>
+  <meta name="description" content="Landing page студии Polaris Creative: дизайн, стратегия и цифровые продукты." />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap">
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-  <header class="site-header">
-    <div class="brand">
-      <img src="assets/icons/book.svg" alt="Book icon" class="logo" />
-      <span>Learn English</span>
-    </div>
-    <div class="searchwrap">
-      <input id="searchInput" type="search" placeholder="Search lessons, topics, tips..." aria-label="Search" />
-      <button id="searchBtn" class="btn cta">Search</button>
-    </div>
-    <nav class="topnav" aria-label="Main">
-      <button class="iconbtn" id="notifyBtn" title="Notifications">
-        <img src="assets/icons/bell.svg" alt="Notifications" />
-      </button>
-      <a class="profile" href="#profile" id="profileLink" aria-label="Profile">
-        <img src="assets/icons/user.svg" alt="" />
-      </a>
+  <div class="bg-orbs" aria-hidden="true"></div>
+  <header class="topbar">
+    <div class="brand">Polaris<span>Creative</span></div>
+    <nav class="nav" aria-label="Основная навигация">
+      <a href="#about">О нас</a>
+      <a href="#services">Услуги</a>
+      <a href="#cases">Проекты</a>
+      <a href="#reviews">Отзывы</a>
+      <a href="#contacts">Контакты</a>
     </nav>
+    <button class="menu-btn" aria-label="Открыть меню" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </header>
 
-  <main class="container">
-    <section class="hero card">
-      <div class="hero-text">
-        <h1>Master English with confidence</h1>
-        <p>Choose your path, practice with interactive exercises, and track your progress.</p>
-        <div class="hero-ctas">
-          <a href="#paths" class="btn cta">Choose a path</a>
-          <a href="#quiz" class="btn ghost">Try a quick quiz</a>
+  <main>
+    <section class="hero" id="about">
+      <div class="hero__content">
+        <p class="eyebrow">Креативная студия полного цикла</p>
+        <h1>Создаем смелые бренды для цифрового мира</h1>
+        <p class="lead">Исследуем аудиторию, проектируем сервисы и превращаем идеи в продукты, которыми хочется делиться.</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#contacts">Запланировать консультацию</a>
+          <button class="btn btn--ghost" data-scroll="#cases">Смотреть проекты</button>
         </div>
+        <dl class="metrics">
+          <div>
+            <dt>58+</dt>
+            <dd>запущенных брендов</dd>
+          </div>
+          <div>
+            <dt>12 лет</dt>
+            <dd>опыта в digital</dd>
+          </div>
+          <div>
+            <dt>4.9/5</dt>
+            <dd>оценка клиентов</dd>
+          </div>
+        </dl>
       </div>
-      <div class="hero-visual" aria-hidden="true">
-        <div class="pulse"></div>
-        <div class="wave"></div>
-        <div class="dots"></div>
-      </div>
-    </section>
-
-    <section id="paths" class="grid">
-      <article class="tile card appear" data-path="Beginner">
-        <img src="assets/icons/az.svg" alt="" />
-        <h3>Vocabulary</h3>
-        <p>Curated word packs with spaced repetition.</p>
-        <button class="btn tiny cta" data-action="startPath">Start</button>
-      </article>
-      <article class="tile card appear" data-path="Grammar">
-        <img src="assets/icons/node.svg" alt="" />
-        <h3>Grammar</h3>
-        <p>Short, animated explanations and drills.</p>
-        <button class="btn tiny cta" data-action="startPath">Start</button>
-      </article>
-      <article class="tile card appear" data-path="Pronunciation">
-        <img src="assets/icons/ear.svg" alt="" />
-        <h3>Pronunciation</h3>
-        <p>Listen, repeat, and compare with visual cues.</p>
-        <button class="btn tiny cta" data-action="startPath">Start</button>
-      </article>
-      <article class="tile card appear" data-path="Business">
-        <img src="assets/icons/briefcase.svg" alt="" />
-        <h3>Business English</h3>
-        <p>Emails, meetings, and presentations.</p>
-        <button class="btn tiny cta" data-action="startPath">Start</button>
-      </article>
-    </section>
-
-    <section id="quick-actions" class="grid grid-small">
-      <a class="card action appear" href="#quiz">
-        <img src="assets/icons/quiz.svg" alt="" />
-        <div>
-          <h4>Quiz</h4>
-          <p>Check your knowledge in 60 seconds.</p>
+      <div class="hero__visual" aria-hidden="true">
+        <div class="hero__card hero__card--big">
+          <span>Стратегия</span>
+          <p>Глубокие исследования и позиционирование</p>
         </div>
-      </a>
-      <a class="card action appear" href="#videos">
-        <img src="assets/icons/video.svg" alt="" />
-        <div>
-          <h4>Video lessons</h4>
-          <p>Bite‑size explanations & examples.</p>
+        <div class="hero__card hero__card--small">
+          <span>UI/UX</span>
+          <p>Прототипы и тестирование гипотез</p>
         </div>
-      </a>
-      <div class="card action appear" id="progressCard" role="region" aria-label="Your progress">
-        <div class="ring">
-          <svg viewBox="0 0 36 36" class="circular-chart">
-            <path class="circle-bg" d="M18 2.0845
-              a 15.9155 15.9155 0 0 1 0 31.831
-              a 15.9155 15.9155 0 0 1 0 -31.831"/>
-            <path id="progressArc" class="circle" stroke-dasharray="0, 100" d="M18 2.0845
-              a 15.9155 15.9155 0 0 1 0 31.831
-              a 15.9155 15.9155 0 0 1 0 -31.831"/>
-            <text x="18" y="20.35" class="percentage" id="progressPct">0%</text>
-          </svg>
-        </div>
-        <div>
-          <h4>Your progress</h4>
-          <p id="progressCopy">Let’s begin!</p>
-        </div>
-      </div>
-      <a class="card action appear" href="#blog">
-        <img src="assets/icons/blog.svg" alt="" />
-        <div>
-          <h4>Blog</h4>
-          <p>Daily tips & micro‑lessons.</p>
-        </div>
-      </a>
-    </section>
-
-    <section id="quiz" class="card">
-      <h2>Quick Quiz</h2>
-      <p class="muted">5 questions • auto‑feedback • saves to your progress</p>
-      <div id="quizBox" class="quiz"></div>
-    </section>
-
-    <section id="videos" class="card">
-      <h2>Video Lessons</h2>
-      <p class="muted">Lightweight video placeholders — replace MP4 sources with your own.</p>
-      <div class="videos grid-small">
-        <figure class="video-card appear">
-          <video controls preload="metadata">
-            <source src="assets/sample-lesson.mp4" type="video/mp4">
-          </video>
-          <figcaption>Present Simple vs Present Continuous</figcaption>
-        </figure>
-        <figure class="video-card appear">
-          <video controls preload="metadata">
-            <source src="assets/sample-lesson.mp4" type="video/mp4">
-          </video>
-          <figcaption>Pronunciation: /θ/ vs /ð/</figcaption>
-        </figure>
+        <div class="hero__halo"></div>
       </div>
     </section>
 
-    <section id="blog" class="card">
-      <h2>Language Tips</h2>
-      <div id="blogList" class="blog grid-small"></div>
+    <section class="section services" id="services">
+      <div class="section__intro">
+        <p class="eyebrow">Что мы делаем</p>
+        <h2>Помогаем компаниям расти благодаря сильной идентике и понятным интерфейсам</h2>
+        <p class="muted">Команда Polaris объединяет стратегов, дизайнеров, аналитиков и продюсеров. Каждый проект ведёт личный куратор.</p>
+      </div>
+      <div class="cards-grid">
+        <article class="card">
+          <h3>Брендинг</h3>
+          <p>Нейминг, визуальная система, гайдайн и брендбук. Запускаем бренд с нуля или обновляем существующий.</p>
+          <ul>
+            <li>Работа с позиционированием</li>
+            <li>Дизайн ключевых носителей</li>
+            <li>Бренд-платформа</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Digital продукты</h3>
+          <p>Проектируем пользовательские сценарии, создаем адаптивные интерфейсы и дизайн‑системы.</p>
+          <ul>
+            <li>UX‑исследования и Customer Journey</li>
+            <li>Прототипирование и тесты</li>
+            <li>Создание UI‑кит</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Контент и продакшн</h3>
+          <p>Разрабатываем tone of voice, снимаем фото и видео, сопровождаем запуск кампаний.</p>
+          <ul>
+            <li>Контент‑стратегия</li>
+            <li>Диджитал‑кампании</li>
+            <li>Мониторинг метрик</li>
+          </ul>
+        </article>
+      </div>
     </section>
 
-    <section id="profile" class="card">
-      <h2>Your Profile</h2>
-      <form id="profileForm" class="profile-form">
+    <section class="section cases" id="cases">
+      <div class="section__intro">
+        <p class="eyebrow">Избранные проекты</p>
+        <h2>Каждый кейс — это конкретный бизнес‑результат</h2>
+      </div>
+      <div class="cases__list">
+        <article class="case">
+          <div class="case__label">TechFlow</div>
+          <h3>Новая идентика и продуктовая платформа для SaaS‑сервиса</h3>
+          <p>Рост конверсии регистрации на 37% за три месяца.</p>
+          <button class="tag" data-case="techflow">Детали</button>
+        </article>
+        <article class="case">
+          <div class="case__label">Museo</div>
+          <h3>AR‑экспозиция и мобильное приложение для музейной сети</h3>
+          <p>+62% вовлечённости посетителей после запуска.</p>
+          <button class="tag" data-case="museo">Детали</button>
+        </article>
+        <article class="case">
+          <div class="case__label">North Coffee</div>
+          <h3>Ребрендинг и e‑commerce платформа для сети кофеен</h3>
+          <p>Увеличили онлайн‑продажи в 2,3 раза.</p>
+          <button class="tag" data-case="north">Детали</button>
+        </article>
+      </div>
+      <div class="case-modal" role="dialog" aria-modal="true" aria-label="Подробнее о проекте" tabindex="-1">
+        <div class="case-modal__inner">
+          <button class="case-modal__close" aria-label="Закрыть">×</button>
+          <div class="case-modal__content" id="caseContent"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section highlight">
+      <div class="timeline">
+        <h2>Как мы работаем</h2>
+        <ol>
+          <li>
+            <h3>Диагностика</h3>
+            <p>Собираем данные, проводим интервью и определяем гипотезы роста.</p>
+          </li>
+          <li>
+            <h3>Создание концепции</h3>
+            <p>Собираем moodboard, прототипы и визуальные направления.</p>
+          </li>
+          <li>
+            <h3>Реализация</h3>
+            <p>Согласовываем дизайн-систему, контент и запускаем MVP.</p>
+          </li>
+          <li>
+            <h3>Сопровождение</h3>
+            <p>Настраиваем метрики, помогаем команде масштабировать продукт.</p>
+          </li>
+        </ol>
+      </div>
+      <aside class="stats">
+        <div>
+          <strong>98%</strong>
+          <span>клиентов приходят по рекомендации</span>
+        </div>
+        <div>
+          <strong>3 недели</strong>
+          <span>на запуск MVP с момента брифа</span>
+        </div>
+        <div>
+          <strong>24/7</strong>
+          <span>поддержка проекта после релиза</span>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section reviews" id="reviews">
+      <div class="section__intro">
+        <p class="eyebrow">Отзывы</p>
+        <h2>Клиенты о сотрудничестве с Polaris</h2>
+      </div>
+      <div class="reviews__slider" role="region" aria-label="Отзывы клиентов">
+        <article class="review" data-active>
+          <blockquote>«Команда Polaris предложила решения, которые мы даже не рассматривали. Благодаря глубокому исследованию мы получили яркий бренд и понятную коммуникацию для пользователей.»</blockquote>
+          <div class="review__author">
+            <span>Дарья Рябинина</span>
+            <small>директор по маркетингу TechFlow</small>
+          </div>
+        </article>
+        <article class="review">
+          <blockquote>«С ними очень спокойно запускать сложные продукты. Видно, что у ребят выстроенные процессы, а дизайн и тексты всегда попадают в цель.»</blockquote>
+          <div class="review__author">
+            <span>Максим Колесников</span>
+            <small>основатель North Coffee</small>
+          </div>
+        </article>
+        <article class="review">
+          <blockquote>«Команда не только разработала приложение, но и обучила наших сотрудников работать с аналитикой и обновлениями. Полный цикл поддержки.»</blockquote>
+          <div class="review__author">
+            <span>Елена Гайдук</span>
+            <small>куратор Museo</small>
+          </div>
+        </article>
+      </div>
+      <div class="reviews__controls" role="group" aria-label="Переключение отзывов">
+        <button class="dot" aria-label="Первый отзыв" data-index="0" aria-pressed="true"></button>
+        <button class="dot" aria-label="Второй отзыв" data-index="1"></button>
+        <button class="dot" aria-label="Третий отзыв" data-index="2"></button>
+      </div>
+    </section>
+
+    <section class="section contacts" id="contacts">
+      <div class="section__intro">
+        <p class="eyebrow">Контакты</p>
+        <h2>Расскажите о своем проекте</h2>
+        <p class="muted">Мы свяжемся с вами в течение одного рабочего дня, предложим формат встречи и отправим чек-лист подготовки.</p>
+      </div>
+      <form class="form" id="contactForm">
         <label>
-          Display name
-          <input type="text" id="displayName" placeholder="Your name" />
+          Имя
+          <input type="text" name="name" required placeholder="Как к вам обращаться?" />
         </label>
         <label>
-          Level
-          <select id="level">
-            <option>Beginner</option>
-            <option>Intermediate</option>
-            <option>Advanced</option>
-          </select>
+          Компания
+          <input type="text" name="company" placeholder="Название или сфера" />
         </label>
-        <button class="btn cta" type="submit">Save</button>
+        <label>
+          Email
+          <input type="email" name="email" required placeholder="you@example.com" />
+        </label>
+        <label class="form__full">
+          Кратко о задаче
+          <textarea name="message" rows="4" placeholder="Какая цель проекта?" required></textarea>
+        </label>
+        <div class="form__actions">
+          <button class="btn btn--primary" type="submit">Отправить</button>
+          <p class="muted" id="formNote">Ответим в течение дня</p>
+        </div>
       </form>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <small>© 2025 Learn English — Demo bundle (static, offline‑ready)</small>
+  <footer class="footer">
+    <div class="footer__brand">Polaris Creative</div>
+    <div class="footer__meta">
+      <span>© 2025. Студия дизайна и цифровых продуктов.</span>
+      <button class="btn btn--ghost" id="themeToggle" aria-pressed="false">Тёмная тема</button>
+    </div>
   </footer>
 
-  <script>document.documentElement.classList.add('js')</script>
   <script src="js/app.js" defer></script>
 </body>
 </html>
